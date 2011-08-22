@@ -2,6 +2,7 @@ from django_startproject import utils
 import optparse
 import os
 import sys
+from random import choice
 
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.realpath(utils.__file__)),
@@ -34,6 +35,8 @@ def start_project():
     # Get any boilerplate replacement variables:
     replace = {}
     for var, help, default in utils.get_boilerplate(src, project_name):
+        if var == 'mysecretkey' and default is None:
+            default = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
         help = help or var
         if default is not None:
             prompt = '%s [%s]: ' % (help, default)
